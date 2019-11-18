@@ -8,16 +8,33 @@
 
 		<div class="results">
 			<div class="examples">
-				<div class="hero">{{ font}}</div>
+				<div class="hero">{{ font || 'choose font'}}</div>
+				<hr>
+				<div class="x-height-container">ABCDEFGHIJKLMOPQURSTUVWXYZ
+					<span class="x-height"><span class="label">x-height</span></span>
+					<span class="x-height x-height--font-size"><span class="label">font-size</span></span>
+				</div>
+				<hr>
+				<div class="x-height-container">abcdefghijklmnopqurstuvwxyz
+					<span id="calc-x-height" class="x-height"><span class="label">x-height</span></span>
+					<span class="x-height x-height--font-size"><span class="label">font-size</span></span>
+				</div>
+				<hr>
 				<h1>Heading 1</h1>
 				<h2>Heading 2</h2>
 				<h3>Heading 3</h3>
 				<p>Etiam porta sem malesuada magna mollis euismod. Maecenas faucibus mollis interdum. Sed posuere
 					consectetur est at lobortis.</p>
+
 			</div>
 			<div class="details">
 				<h3>Details</h3>
-				Font Family: {{ font }}
+				<strong>Font Family</strong><br>
+				{{ font || 'none' }}<br><br>
+				<strong>Cap-height</strong><br>
+				...<br><br>
+				<strong>X-height</strong><br>
+				{{ xHeightFactor || '...'}}<br>
 			</div>
 		</div>
 	</div>
@@ -32,7 +49,9 @@
 		components: {},
 		data: function () {
 			return {
-				font: null
+				font: null,
+				xHeight: null,
+				xHeightFactor: null
 			}
 		},
 		computed: {
@@ -44,14 +63,22 @@
 			updateFont(event)
 			{
 				this.font = event.target.value;
+				this.xHeightFactor = this.xHeight = null;
 
 				WebFont.load({
 					google: {
 						families: [this.font]
+					},
+					active: () => {
+						let decimals = 3;
+						let decimalFactor = 10 ** decimals;
+
+						document.querySelector(':root').style.setProperty('--font', this.font);
+						this.xHeight = document.getElementById('calc-x-height').offsetHeight;
+						this.xHeightFactor = Math.round((this.xHeight / 72) * decimalFactor) / decimalFactor;
 					}
 				});
 
-				document.querySelector(':root').style.setProperty('--font', this.font);
 			}
 		},
 		created()
@@ -81,6 +108,7 @@
 		font-family: var(--font);
 		flex: 1 1 auto;
 		padding: 50px;
+		position: relative;
 	}
 
 	.details {
@@ -92,5 +120,70 @@
 
 	.hero {
 		font-size: 72px;
+	}
+
+	hr {
+		border-top: 1px solid #ddd;
+		border-bottom: none;
+		margin: 50px 0;
+	}
+
+	.x-height-container {
+		font-size: 72px;
+		line-height: 1;
+		/*background: #000;*/
+		/*color: #fff;*/
+		word-break: break-word;
+
+		.x-height {
+			/*background: #FF5151;*/
+			background: #fff;
+			height: 1ex;
+			width: 2ex;
+			display: inline-block;
+			position: relative;
+			color: #FF5151;
+
+			&::before,
+			&::after {
+				content: '';
+				width: 100vw;
+				border-top: 1px dashed #FF5151;
+				position: absolute;
+				right: 100%;
+			}
+
+			&::before {
+				top: 0;
+			}
+
+			&::after {
+				bottom: 0;
+			}
+
+			&--font-size {
+				height: 1em;
+				/*background: #000;*/
+				margin-left: 1ex;
+				/*color: #000;*/
+
+				&::before,
+				&::after {
+					/*border-color: #000;*/
+				}
+			}
+		}
+
+		.label {
+			word-break: normal;
+			font-family: Avenir, sans-serif;
+			position: absolute;
+			font-size: 16px;
+			transform: translateY(-50%);
+			display: block;
+			margin-left: 10px;
+			width: 150px;
+			text-align: left;
+		}
 	}
 </style>
