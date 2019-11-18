@@ -10,17 +10,16 @@
 		<div class="results">
 			<div class="examples">
 				<div class="hero">{{ font || 'choose font'}}</div>
-				<hr>
+				<h3>Cap height calculator</h3>
 				<div class="x-height-container">ABCDEFGHIJKLMOPQURSTUVWXYZ
 					<span class="x-height"><span class="label">x-height</span></span>
 					<span class="x-height x-height--font-size"><span class="label">font-size</span></span>
 				</div>
-				<hr>
+				<h3>X height calculator</h3>
 				<div class="x-height-container">abcdefghijklmnopqurstuvwxyz
 					<span id="calc-x-height" class="x-height"><span class="label">x-height</span></span>
 					<span class="x-height x-height--font-size"><span class="label">font-size</span></span>
 				</div>
-				<hr>
 				<h1>Heading 1</h1>
 				<h2>Heading 2</h2>
 				<h3>Heading 3</h3>
@@ -55,6 +54,7 @@
 				xHeightFactor: null
 			}
 		},
+
 		computed: {
 			...mapGetters(['getGoogleFonts'])
 		},
@@ -84,8 +84,16 @@
 		},
 		created()
 		{
+			// Get all Google Fonts
 			this.fetchGoogleFontsData();
-		}
+
+			//
+			window.addEventListener('keydown', (e) => {
+				if (e.key == 'Escape') {
+						this.showModal = !this.showModal;
+				}
+			});
+		},
 	}
 </script>
 
@@ -119,6 +127,7 @@
 		flex: 1 1 auto;
 		padding: 50px;
 		position: relative;
+		background: #fafafa;
 	}
 
 	.details {
@@ -139,15 +148,19 @@
 	}
 
 	.x-height-container {
+		background: #eee;
 		font-size: 72px;
 		line-height: 1;
+		padding: 50px 0;
 		/*background: #000;*/
 		/*color: #fff;*/
 		word-break: break-word;
+		overflow: hidden;
+		margin: 10px 0;
 
 		.x-height {
 			/*background: #FF5151;*/
-			background: #fff;
+			background: transparent;
 			height: 1ex;
 			width: 2ex;
 			display: inline-block;
