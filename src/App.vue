@@ -1,5 +1,6 @@
 <template>
 	<div id="app">
+		<div class="draft"><strong>Fonts</strong> — Draft version.</div>
 		<label for="googleFonts">Google Fonts</label><br>
 		<select name="" id="googleFonts" @change="updateFont($event)">
 			<option v-for="(font) in getGoogleFonts" :value="font.family" v-bind:key="font.id">{{ font.family }}
@@ -89,6 +90,15 @@
 </script>
 
 <style lang="scss">
+
+	.draft{
+		background: #FF5151;
+		color: #fff;
+		position: fixed;
+		top: 0;
+		left: 0;
+		padding: 10px;
+	}
 	#app {
 		font-family: 'Avenir', Helvetica, Arial, sans-serif;
 		-webkit-font-smoothing: antialiased;
