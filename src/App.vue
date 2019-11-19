@@ -36,7 +36,8 @@
 				{{ font || 'none' }}<br><br>
 				<strong>Cap-height</strong><br>
 				...<br><br>
-				<strong>X-height</strong> (<a type="button" @click="resetXHeight">reset</a>)<br>
+				<label for="xheight">X-height</label> (<a type="button" @click="resetXHeight">reset</a>)<br>
+				<input id="xheight" type="number" step="0.001" :value="getXHeightFactor"  @input="setXHeightFactor" @change="setXHeightFactor">
 				{{ getXHeightFactor || '...'}}<br>
 			</div>
 		</div>
@@ -65,7 +66,7 @@
 		},
 		methods: {
 			...mapActions(
-				['fetchGoogleFontsData', 'resetXHeightCorrection', 'calculateXHeightFactor', 'setXHeightAuto']),
+				['fetchGoogleFontsData', 'resetXHeightCorrection', 'calculateXHeightFactor', 'setXHeightAuto','setXHeightFactor']),
 
 			updateFont(event)
 			{

@@ -59,5 +59,14 @@ export const actions = {
 
 		let xHeightFactor = Math.round((state.xHeightTotal / fontSize) * decimalFactor) / decimalFactor;
 		commit('SET_XHEIGHT_FACTOR',xHeightFactor)
+	},
+
+	setXHeightFactor({commit,state},event){
+		let fontSize = 72;
+
+		let value = event.target.value;
+		let correction = state.xHeight.auto - (fontSize*value);
+		commit('SET_XHEIGHT_CORRECTION', correction);
+		commit('SET_XHEIGHT_FACTOR',value)
 	}
 }
