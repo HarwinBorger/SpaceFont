@@ -66,17 +66,19 @@
 	}
 
 	&__drag {
-		@include height(2);
-		@include width(2);
-		@include margin-left(1);
+		@include height(1.5);
+		@include width(1.5);
+		@include margin(1);
 		display: inline-block;
 		vertical-align: middle;
 		border-radius: 100%;
 		background: $color-blue;
 		cursor: pointer;
 		position: relative;
-		border: 2px solid #fff;
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+		border: 3px solid #fff;
+		box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+		transition: 200ms all ease-out;
+		will-change: auto;
 
 		&::after,
 		&::before {
@@ -86,7 +88,10 @@
 			background: #fff;
 			position: absolute;
 			left: 50%;
-			transform: translate(-50%, -50%);
+			transform: translate(-50%, -50%) scale(0);
+			transition: 200ms all ease-out;
+			will-change: auto;
+			opacity: 0;
 		}
 
 		&::before {
@@ -99,7 +104,17 @@
 
 		.is-drag &,
 		&:hover {
+			@include width(2.5);
+			@include height(2.5);
+			@include margin(0.5);
 			background: $color-blue-dark;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+			&::before,
+			&::after{
+				transform: translate(-50%, -50%) scale(1);
+				opacity: 1;
+			}
 		}
 	}
 
@@ -108,85 +123,4 @@
 		height: 1ex;
 		background: #0f9;
 	}
-}
-
-
-.tr-transform--active {
-	position: absolute;
-	z-index: 5;
-}
-
-.tr-transform__content {
-	user-select: none;
-}
-
-.tr-transform__rotator {
-	top: -45px;
-	left: calc(50% - 7px);
-}
-
-.tr-transform__rotator,
-.tr-transform__scale-point {
-	background: #fff;
-	width: 15px;
-	height: 15px;
-	border-radius: 50%;
-	position: absolute;
-	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-	border: 1px solid rgba(0, 0, 0, 0.1);
-	cursor: pointer;
-}
-
-.tr-transform__rotator:hover,
-.tr-transform__scale-point:hover {
-	background: #F1F5F8;
-}
-
-.tr-transform__rotator:active,
-.tr-transform__scale-point:active {
-	background: #DAE1E7;
-}
-
-.tr-transform__scale-point {
-
-}
-
-.tr-transform__scale-point--tl {
-	top: -7px;
-	left: -7px;
-}
-
-.tr-transform__scale-point--ml {
-	top: calc(50% - 7px);
-	left: -7px;
-}
-
-.tr-transform__scale-point--tr {
-	left: calc(100% - 7px);
-	top: -7px;
-}
-
-.tr-transform__scale-point--tm {
-	left: calc(50% - 7px);
-	top: -7px;
-}
-
-.tr-transform__scale-point--mr {
-	left: calc(100% - 7px);
-	top: calc(50% - 7px);
-}
-
-.tr-transform__scale-point--bl {
-	left: -7px;
-	top: calc(100% - 7px);
-}
-
-.tr-transform__scale-point--bm {
-	left: calc(50% - 7px);
-	top: calc(100% - 7px);
-}
-
-.tr-transform__scale-point--br {
-	left: calc(100% - 7px);
-	top: calc(100% - 7px);
 }
