@@ -1,0 +1,192 @@
+.measures {
+	display: inline-block;
+	position: relative;
+}
+
+.measure {
+	position: absolute;
+	background: transparent;
+	height: 1px;
+	display: block;
+	color: $color-red;
+	user-select: none;
+
+	&::before {
+		content: '';
+		width: 100vw;
+		border-top: 1px dashed $color-red;
+		position: absolute;
+		right: 100%;
+	}
+
+	&.is-drag {
+		color: $color-blue-dark;
+
+		&::before {
+			border-top-color: $color-blue-dark;
+		}
+	}
+
+	&::before {
+		top: 0;
+	}
+
+	&--dragable {
+		z-index: 100;
+	}
+
+	&--xheight {
+		height: 1ex; // height required for correct measurement in tool
+		min-width: 2ex;
+		bottom: 0;
+	}
+
+	&--font-size {
+		bottom: 1em;
+	}
+
+	&--baseline {
+		bottom: -1px;
+
+		&::before {
+			border-top-style: solid;
+		}
+	}
+
+	&__label {
+		word-break: normal;
+		font-family: Avenir, sans-serif;
+		position: absolute;
+		font-size: 14px;
+		transform: translateY(-50%);
+		display: block;
+		margin-left: 10px;
+		width: 150px;
+		text-align: left;
+	}
+
+	&__drag {
+		@include height(2);
+		@include width(2);
+		@include margin-left(1);
+		display: inline-block;
+		vertical-align: middle;
+		border-radius: 100%;
+		background: $color-blue;
+		cursor: pointer;
+		position: relative;
+		border: 2px solid #fff;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+		&::after,
+		&::before {
+			@include width(1);
+			content: '';
+			height: 1px;
+			background: #fff;
+			position: absolute;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+
+		&::before {
+			top: 40%;
+		}
+
+		&::after {
+			top: 60%;
+		}
+
+		.is-drag &,
+		&:hover {
+			background: $color-blue-dark;
+		}
+	}
+
+	&__dummie {
+		width: 1ex;
+		height: 1ex;
+		background: #0f9;
+	}
+}
+
+
+.tr-transform--active {
+	position: absolute;
+	z-index: 5;
+}
+
+.tr-transform__content {
+	user-select: none;
+}
+
+.tr-transform__rotator {
+	top: -45px;
+	left: calc(50% - 7px);
+}
+
+.tr-transform__rotator,
+.tr-transform__scale-point {
+	background: #fff;
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	position: absolute;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	cursor: pointer;
+}
+
+.tr-transform__rotator:hover,
+.tr-transform__scale-point:hover {
+	background: #F1F5F8;
+}
+
+.tr-transform__rotator:active,
+.tr-transform__scale-point:active {
+	background: #DAE1E7;
+}
+
+.tr-transform__scale-point {
+
+}
+
+.tr-transform__scale-point--tl {
+	top: -7px;
+	left: -7px;
+}
+
+.tr-transform__scale-point--ml {
+	top: calc(50% - 7px);
+	left: -7px;
+}
+
+.tr-transform__scale-point--tr {
+	left: calc(100% - 7px);
+	top: -7px;
+}
+
+.tr-transform__scale-point--tm {
+	left: calc(50% - 7px);
+	top: -7px;
+}
+
+.tr-transform__scale-point--mr {
+	left: calc(100% - 7px);
+	top: calc(50% - 7px);
+}
+
+.tr-transform__scale-point--bl {
+	left: -7px;
+	top: calc(100% - 7px);
+}
+
+.tr-transform__scale-point--bm {
+	left: calc(50% - 7px);
+	top: calc(100% - 7px);
+}
+
+.tr-transform__scale-point--br {
+	left: calc(100% - 7px);
+	top: calc(100% - 7px);
+}

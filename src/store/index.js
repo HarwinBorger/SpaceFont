@@ -8,7 +8,12 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
 	state: {
-		googleFonts: null
+		googleFonts: null,
+		xHeight: {
+			auto: null,
+			correction: null,
+			factor: null
+		},
 	},
 	getters: getters,
 	mutations: mutations,

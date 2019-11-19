@@ -11,14 +11,17 @@
 			<div class="examples">
 				<div class="hero">{{ font || 'choose font'}}</div>
 				<h3>Cap height calculator</h3>
-				<div class="x-height-container">ABCDEFGHIJKLMOPQURSTUVWXYZ
-					<span class="x-height"><span class="label">x-height</span></span>
-					<span class="x-height x-height--font-size"><span class="label">font-size</span></span>
+				<div class="x-height-container">
+					ABCDEFGHIJKLMOPQURSTUVWXYZ
+					<Measures></Measures>
+
 				</div>
 				<h3>X height calculator</h3>
-				<div class="x-height-container">abcdefghijklmnopqurstuvwxyz
-					<span id="calc-x-height" class="x-height"><span class="label">x-height</span></span>
-					<span class="x-height x-height--font-size"><span class="label">font-size</span></span>
+				<div class="x-height-container">
+					abcdefghijklmnopqurstuvwxyz
+					<div class="x-height-container__measure">
+						<Measures></Measures>
+					</div>
 				</div>
 				<h1>Heading 1</h1>
 				<h2>Heading 2</h2>
@@ -34,7 +37,7 @@
 				<strong>Cap-height</strong><br>
 				...<br><br>
 				<strong>X-height</strong><br>
-				{{ xHeightFactor || '...'}}<br>
+				{{ getXHeightFactor || '...'}}<br>
 			</div>
 		</div>
 	</div>
@@ -42,24 +45,27 @@
 
 <script>
 	import {mapGetters, mapActions} from 'vuex';
+	import Measures from './components/Measures.vue';
 	import WebFont from 'webfontloader';
 
 	export default {
 		name: 'app',
-		components: {},
+		components: {
+			'Measures': Measures
+		},
 		data: function () {
 			return {
 				font: null,
 				xHeight: null,
-				xHeightFactor: null
 			}
 		},
 
 		computed: {
-			...mapGetters(['getGoogleFonts'])
+			...mapGetters(['getGoogleFonts', 'getXHeightFactor'])
 		},
 		methods: {
-			...mapActions(['fetchGoogleFontsData']),
+			...mapActions(
+				['fetchGoogleFontsData', 'resetXHeightCorrection', 'calculateXHeightFactor', 'setXHeightAuto']),
 
 			updateFont(event)
 			{
@@ -71,12 +77,14 @@
 						families: [this.font]
 					},
 					active: () => {
-						let decimals = 3;
-						let decimalFactor = 10 ** decimals;
-
 						document.querySelector(':root').style.setProperty('--font', this.font);
+						// Set auto xHeight
 						this.xHeight = document.getElementById('calc-x-height').offsetHeight;
-						this.xHeightFactor = Math.round((this.xHeight / 72) * decimalFactor) / decimalFactor;
+						this.setXHeightAuto(this.xHeight);
+						this.calculateXHeightFactor();
+
+						// Reset any manuel correction made on the xHeight
+						this.resetXHeightCorrection();
 					}
 				});
 
@@ -90,7 +98,7 @@
 			//
 			window.addEventListener('keydown', (e) => {
 				if (e.key == 'Escape') {
-						this.showModal = !this.showModal;
+					this.showModal = !this.showModal;
 				}
 			});
 		},
@@ -99,7 +107,7 @@
 
 <style lang="scss">
 
-	.draft{
+	.draft {
 		background: #FF5151;
 		color: #fff;
 		position: fixed;
@@ -107,13 +115,14 @@
 		left: 0;
 		padding: 10px;
 	}
+
 	#app {
 		font-family: 'Avenir', Helvetica, Arial, sans-serif;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 		text-align: center;
-		color: #2c3e50;
-		margin-top: 60px;
+		color: #222;
+		margin-top: 10px;
 	}
 
 	.results {
@@ -151,62 +160,15 @@
 		background: #eee;
 		font-size: 72px;
 		line-height: 1;
-		padding: 50px 0;
+		padding: 50px 150px 50px 50px;
 		/*background: #000;*/
 		/*color: #fff;*/
 		word-break: break-word;
 		overflow: hidden;
 		margin: 10px 0;
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
 
-		.x-height {
-			/*background: #FF5151;*/
-			background: transparent;
-			height: 1ex;
-			width: 2ex;
-			display: inline-block;
-			position: relative;
-			color: #FF5151;
-
-			&::before,
-			&::after {
-				content: '';
-				width: 100vw;
-				border-top: 1px dashed #FF5151;
-				position: absolute;
-				right: 100%;
-			}
-
-			&::before {
-				top: 0;
-			}
-
-			&::after {
-				bottom: 0;
-			}
-
-			&--font-size {
-				height: 1em;
-				/*background: #000;*/
-				margin-left: 1ex;
-				/*color: #000;*/
-
-				&::before,
-				&::after {
-					/*border-color: #000;*/
-				}
-			}
-		}
-
-		.label {
-			word-break: normal;
-			font-family: Avenir, sans-serif;
-			position: absolute;
-			font-size: 16px;
-			transform: translateY(-50%);
-			display: block;
-			margin-left: 10px;
-			width: 150px;
-			text-align: left;
-		}
 	}
 </style>
