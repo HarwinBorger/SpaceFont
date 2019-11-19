@@ -41,7 +41,7 @@ export const actions = {
 	 * @param commit
 	 */
 	resetXHeightCorrection({commit}){
-		commit('SET_XHEIGHT_CORRECTION', 0)
+		commit('SET_XHEIGHT_CORRECTION', 0);
 	},
 
 	/**

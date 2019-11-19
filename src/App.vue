@@ -36,7 +36,7 @@
 				{{ font || 'none' }}<br><br>
 				<strong>Cap-height</strong><br>
 				...<br><br>
-				<strong>X-height</strong><br>
+				<strong>X-height</strong> (<a type="button" @click="resetXHeight">reset</a>)<br>
 				{{ getXHeightFactor || '...'}}<br>
 			</div>
 		</div>
@@ -87,7 +87,11 @@
 						this.resetXHeightCorrection();
 					}
 				});
+			},
 
+			resetXHeight(){
+				this.resetXHeightCorrection();
+				this.calculateXHeightFactor();
 			}
 		},
 		created()
