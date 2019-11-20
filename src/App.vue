@@ -3,6 +3,7 @@
 		<div class="draft"><strong>Fonts</strong> — Draft version.</div>
 		<label for="googleFonts">Google Fonts</label><br>
 		<select name="" id="googleFonts" @change="updateFont($event)">
+			<option value="" disabled selected>Choose your font</option>
 			<option v-for="(font) in getGoogleFonts" :value="font.family" v-bind:key="font.id">{{ font.family }}
 			</option>
 		</select>
@@ -13,14 +14,14 @@
 				<h3>Cap height calculator</h3>
 				<div class="x-height-container">
 					ABCDEFGHIJKLMOPQURSTUVWXYZ
-					<Measures></Measures>
+					<Measures :type="CAPHEIGHT"></Measures>
 
 				</div>
 				<h3>X height calculator</h3>
 				<div class="x-height-container">
 					abcdefghijklmnopqurstuvwxyz
 					<div class="x-height-container__measure">
-						<Measures></Measures>
+						<Measures :type="XHEIGHT"></Measures>
 					</div>
 				</div>
 				<h1>Heading 1</h1>
@@ -48,6 +49,7 @@
 	import {mapGetters, mapActions} from 'vuex';
 	import Measures from './components/Measures.vue';
 	import WebFont from 'webfontloader';
+	import {mapConstants} from "./constants";
 
 	export default {
 		name: 'app',
@@ -56,8 +58,9 @@
 		},
 		data: function () {
 			return {
+				...mapConstants,
 				font: null,
-				xHeight: null,
+				xHeight: null
 			}
 		},
 
