@@ -16,25 +16,13 @@ export const getters = {
 		}
 	},
 
-	/* X-height*/
-	getXHeightFactor(state)
+	getCorrectionOfType: (state) => (type) =>
 	{
-		return state.xHeight.factor;
+		switch (type) {
+			case XHEIGHT:
+				return state.xHeight.correction;
+			case CAPHEIGHT:
+				return state.capHeight.correction;
+		}
 	},
-
-	getXHeightCorrection(state)
-	{
-		return state.xHeight.correction;
-	},
-
-	/* Cap-height */
-	getCapHeightFactor(state)
-	{
-		return state.capHeight.factor
-	},
-
-	getCapHeightCorrection(state)
-	{
-		return state.capHeight.correction;
-	}
 }

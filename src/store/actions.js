@@ -48,14 +48,10 @@ export const actions = {
 	},
 
 	/**
-	 * Reset XHeight correction
+	 * Reset Correction of type
 	 * @param commit
+	 * @param type
 	 */
-	resetXHeightCorrection({commit})
-	{
-		commit('SET_XHEIGHT_CORRECTION', 0);
-	},
-
 	resetCorrectionOfType({commit}, type)
 	{
 		switch (type){
@@ -72,7 +68,7 @@ export const actions = {
 	 * Calculate XHeight Factor
 	 * @param commit
 	 * @param state
-	 * @param fontSize
+	 * @param type
 	 */
 	calculateFactorOfType({commit, state}, type)
 	{
@@ -98,5 +94,16 @@ export const actions = {
 		let correction = state.xHeight.auto - (fontSize * value);
 		commit('SET_XHEIGHT_CORRECTION', correction);
 		commit('SET_XHEIGHT_FACTOR', value)
+	},
+
+
+	setCapHeightFactor({commit, state}, event)
+	{
+		let fontSize = 72;
+
+		let value = event.target.value;
+		let correction = state.capHeight.auto - (fontSize * value);
+		commit('SET_CAPHEIGHT_CORRECTION', correction);
+		commit('SET_CAPHEIGHT_FACTOR', value)
 	}
 }

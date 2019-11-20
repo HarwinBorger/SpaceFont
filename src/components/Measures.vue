@@ -2,12 +2,12 @@
 	<span class="measures">
 		<span class="measure measure--font-size"><span class="measure__label">font-size</span></span>
 		<span id="calc-cap-height" class="measure measure--capheight measure--dragable" :class="[drag === CAPHEIGHT ? 'is-drag':'']"
-		      :style="{ transform: 'translateY('+getCapHeightCorrection+'px)'}">
+		      :style="{ transform: 'translateY('+getCorrectionOfType(CAPHEIGHT)+'px)'}">
 			<span class="measure__label">cap-height <span v-if="type===CAPHEIGHT" class="measure__drag"
 			                                              @mousedown="startDrag"></span></span>
 		</span>
 		<span id="calc-x-height" class="measure measure--xheight measure--dragable" :class="[drag === XHEIGHT? 'is-drag':'']"
-		      :style="{ transform: 'translateY('+getXHeightCorrection+'px)'}">
+		      :style="{ transform: 'translateY('+getCorrectionOfType(XHEIGHT)+'px)'}">
 			<span class="measure__label">x-height <span v-if="type===XHEIGHT" class="measure__drag"
 			                                            @mousedown="startDrag"></span></span>
 		</span>
@@ -48,7 +48,7 @@
 			}
 		},
 		computed: {
-			...mapGetters(['getXHeightCorrection', 'getCapHeightCorrection'])
+			...mapGetters(['getCorrectionOfType'])
 		},
 		methods: {
 			...mapActions(['setCorrectionOfType', 'calculateFactorOfType']),
