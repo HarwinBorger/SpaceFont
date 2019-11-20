@@ -35,11 +35,18 @@
 				<h3>Details</h3>
 				<strong>Font Family</strong><br>
 				{{ font || 'none' }}<br><br>
-				<strong>Cap-height</strong><br>
-				...<br><br>
-				<label for="xheight">X-height</label> (<a type="button" @click="resetXHeight">reset</a>)<br>
-				<input id="xheight" type="number" step="0.001" :value="getXHeightFactor"  @input="setXHeightFactor" @change="setXHeightFactor">
-				{{ getXHeightFactor || '...'}}<br>
+				<div>
+					<label for="capheight">Cap-height</label> (<a type="button" @click="resetCapHeight">reset</a>)<br>
+					<input v-if="getFactorOfType(CAPHEIGHT)" id="capheight" type="number" step="0.001" :value="getFactorOfType(CAPHEIGHT)"
+					       @input="setCapHeightFactor" @change="setCapHeightFactor">
+					<template v-else>...</template>
+				</div>
+				<div>
+					<label for="xheight">X-height</label> (<a type="button" @click="resetXHeight">reset</a>)<br>
+					<input v-if="getFactorOfType(XHEIGHT)" id="xheight" type="number" step="0.001" :value="getFactorOfType(XHEIGHT)"
+					       @input="setXHeightFactor" @change="setXHeightFactor">
+					<template v-else>...</template>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -49,7 +56,7 @@
 	import {mapGetters, mapActions} from 'vuex';
 	import Measures from './components/Measures.vue';
 	import WebFont from 'webfontloader';
-	import {mapConstants, XHEIGHT} from "./constants";
+	import {mapConstants, XHEIGHT, CAPHEIGHT} from "./constants";
 
 	export default {
 		name: 'app',
@@ -65,11 +72,19 @@
 		},
 
 		computed: {
-			...mapGetters(['getGoogleFonts', 'getXHeightFactor'])
+			...mapGetters(['getGoogleFonts', 'getFactorOfType'])
 		},
 		methods: {
 			...mapActions(
-				['fetchGoogleFontsData', 'resetXHeightCorrection', 'calculateFactorOfType', 'setXHeightAuto','setXHeightFactor']),
+				[
+					'fetchGoogleFontsData',
+					'resetCorrectionOfType',
+					'calculateFactorOfType',
+					'setXHeightAuto',
+					'setXHeightFactor',
+					'setCapHeightAuto',
+					'setCapHeightFactor'
+				]),
 
 			updateFont(event)
 			{
@@ -88,14 +103,21 @@
 						this.calculateFactorOfType(XHEIGHT);
 
 						// Reset any manuel correction made on the xHeight
-						this.resetXHeightCorrection();
+						this.resetCorrectionOfType(XHEIGHT);
 					}
 				});
 			},
 
-			resetXHeight(){
-				this.resetXHeightCorrection();
+			resetXHeight()
+			{
+				this.resetCorrectionOfType(XHEIGHT);
 				this.calculateFactorOfType(XHEIGHT);
+			},
+
+			resetCapHeight()
+			{
+				this.resetCorrectionOfType(CAPHEIGHT);
+				this.calculateFactorOfType(CAPHEIGHT);
 			}
 		},
 		created()

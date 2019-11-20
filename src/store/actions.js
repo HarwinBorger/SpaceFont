@@ -37,7 +37,7 @@ export const actions = {
 	 */
 	setCorrectionOfType({commit}, [type, value])
 	{
-		switch(type){
+		switch (type) {
 			case XHEIGHT:
 				commit('SET_XHEIGHT_CORRECTION', value);
 				break;
@@ -56,6 +56,18 @@ export const actions = {
 		commit('SET_XHEIGHT_CORRECTION', 0);
 	},
 
+	resetCorrectionOfType({commit}, type)
+	{
+		switch (type){
+			case XHEIGHT:
+				commit('SET_XHEIGHT_CORRECTION', 0);
+				break;
+			case CAPHEIGHT:
+				commit('SET_CAPHEIGHT_CORRECTION', 0);
+				break;
+		}
+	},
+
 	/**
 	 * Calculate XHeight Factor
 	 * @param commit
@@ -65,7 +77,7 @@ export const actions = {
 	calculateFactorOfType({commit, state}, type)
 	{
 		let factor;
-		switch(type){
+		switch (type) {
 			case XHEIGHT:
 				factor = calculateFactor(state.xHeight.auto, state.xHeight.correction);
 				commit('SET_XHEIGHT_FACTOR', factor);

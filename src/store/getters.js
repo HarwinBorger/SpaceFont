@@ -1,17 +1,40 @@
+import {XHEIGHT, CAPHEIGHT} from "../constants";
+
 export const getters = {
-	getGoogleFonts(state){
+	getGoogleFonts(state)
+	{
 		return state.googleFonts;
 	},
 
-	getXHeightFactor(state){
+	getFactorOfType: (state) => (type) =>
+	{
+		switch (type) {
+			case XHEIGHT:
+				return state.xHeight.factor;
+			case CAPHEIGHT:
+				return state.capHeight.factor;
+		}
+	},
+
+	/* X-height*/
+	getXHeightFactor(state)
+	{
 		return state.xHeight.factor;
 	},
 
-	getXHeightCorrection(state){
+	getXHeightCorrection(state)
+	{
 		return state.xHeight.correction;
 	},
 
-	getCapHeightCorrection(state){
+	/* Cap-height */
+	getCapHeightFactor(state)
+	{
+		return state.capHeight.factor
+	},
+
+	getCapHeightCorrection(state)
+	{
 		return state.capHeight.correction;
 	}
 }
