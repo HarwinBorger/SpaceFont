@@ -1,2 +1,6 @@
 //  5. OBJECTS
 //  class-based selectors which define undecorated design patterns, for example media object known from OOCSS
+@include layout-classes();
+@include font-size-classes();
+@include font-preset-classes();
+@include self-classes();

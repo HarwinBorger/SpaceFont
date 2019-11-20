@@ -9,45 +9,71 @@
 		</select>
 
 		<div class="results">
-			<div class="examples">
-				<div class="hero">{{ font || 'choose font'}}</div>
-				<h3>Cap height calculator</h3>
-				<div class="x-height-container">
-					ABCDEFGHIJKLMOPQURSTUVWXYZ
-					<Measures :type="CAPHEIGHT"></Measures>
+			<Interface>
+				<template v-slot:header>
+					<div class="hero">{{ font || 'choose font'}}</div>
+				</template>
+				<template v-slot:details>
+					<h3>Details</h3>
+					<strong>Font Family</strong><br>
+					{{ font || 'none' }}<br><br>
+				</template>
+			</Interface>
 
-				</div>
-				<h3>X height calculator</h3>
-				<div class="x-height-container">
-					abcdefghijklmnopqurstuvwxyz
-					<div class="x-height-container__measure">
-						<Measures :type="XHEIGHT"></Measures>
+			<Interface>
+				<template v-slot:header>
+					<h3>Cap height calculator</h3>
+				</template>
+
+				<template v-slot:default>
+					<div class="x-height-container">
+						ABCDEFGHIJKLMOPQURSTUVWXYZ
+						<Measures :type="CAPHEIGHT"></Measures>
+
 					</div>
-				</div>
+				</template>
+
+				<template v-slot:details>
+					<div>
+						<label for="capheight">Cap-height</label> (<a type="button" @click="resetCapHeight">reset</a>)<br>
+						<input v-if="getFactorOfType(CAPHEIGHT)" id="capheight" type="number" step="0.001" :value="getFactorOfType(CAPHEIGHT)"
+						       @input="setCapHeightFactor" @change="setCapHeightFactor">
+						<template v-else>...</template>
+					</div>
+				</template>
+			</Interface>
+
+			<Interface>
+				<template v-slot:header>
+					<h3>X height calculator</h3>
+				</template>
+
+				<template v-slot:default>
+					<div class="x-height-container">
+						abcdefghijklmnopqurstuvwxyz
+						<div class="x-height-container__measure">
+							<Measures :type="XHEIGHT"></Measures>
+						</div>
+					</div>
+				</template>
+
+				<template v-slot:details>
+					<div>
+						<label for="xheight">X-height</label> (<a type="button" @click="resetXHeight">reset</a>)<br>
+						<input v-if="getFactorOfType(XHEIGHT)" id="xheight" type="number" step="0.001" :value="getFactorOfType(XHEIGHT)"
+						       @input="setXHeightFactor" @change="setXHeightFactor">
+						<template v-else>...</template>
+					</div>
+				</template>
+			</Interface>
+
+			<Interface>
 				<h1>Heading 1</h1>
 				<h2>Heading 2</h2>
 				<h3>Heading 3</h3>
 				<p>Etiam porta sem malesuada magna mollis euismod. Maecenas faucibus mollis interdum. Sed posuere
 					consectetur est at lobortis.</p>
-
-			</div>
-			<div class="details">
-				<h3>Details</h3>
-				<strong>Font Family</strong><br>
-				{{ font || 'none' }}<br><br>
-				<div>
-					<label for="capheight">Cap-height</label> (<a type="button" @click="resetCapHeight">reset</a>)<br>
-					<input v-if="getFactorOfType(CAPHEIGHT)" id="capheight" type="number" step="0.001" :value="getFactorOfType(CAPHEIGHT)"
-					       @input="setCapHeightFactor" @change="setCapHeightFactor">
-					<template v-else>...</template>
-				</div>
-				<div>
-					<label for="xheight">X-height</label> (<a type="button" @click="resetXHeight">reset</a>)<br>
-					<input v-if="getFactorOfType(XHEIGHT)" id="xheight" type="number" step="0.001" :value="getFactorOfType(XHEIGHT)"
-					       @input="setXHeightFactor" @change="setXHeightFactor">
-					<template v-else>...</template>
-				</div>
-			</div>
+			</Interface>
 		</div>
 	</div>
 </template>
@@ -55,13 +81,15 @@
 <script>
 	import {mapGetters, mapActions} from 'vuex';
 	import Measures from './components/Measures.vue';
+	import Interface from './components/Interface.vue';
 	import WebFont from 'webfontloader';
 	import {mapConstants, XHEIGHT, CAPHEIGHT} from "./constants";
 
 	export default {
 		name: 'app',
 		components: {
-			'Measures': Measures
+			'Measures': Measures,
+			'Interface': Interface
 		},
 		data: function () {
 			return {
@@ -156,7 +184,7 @@
 	}
 
 	.results {
-		display: flex;
+		/*display: flex;*/
 		border-top: 1px solid #ccc;
 		margin-top: 50px;
 	}
