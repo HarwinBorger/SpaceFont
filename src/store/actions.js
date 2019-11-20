@@ -1,4 +1,6 @@
 import Axios from "axios";
+import {CAPHEIGHT, XHEIGHT} from "../constants";
+import {calculateFactor} from "./helpers";
 
 export const actions = {
 	/**
@@ -28,19 +30,29 @@ export const actions = {
 
 	/**
 	 * Set XHeight correction
+	 *
 	 * @param commit
+	 * @param type
 	 * @param value
 	 */
-	setXHeightCorrection({commit}, value)
+	setCorrectionOfType({commit}, [type, value])
 	{
-		commit('SET_XHEIGHT_CORRECTION', value)
+		switch(type){
+			case XHEIGHT:
+				commit('SET_XHEIGHT_CORRECTION', value);
+				break;
+			case CAPHEIGHT:
+				commit('SET_CAPHEIGHT_CORRECTION', value);
+				break;
+		}
 	},
 
 	/**
 	 * Reset XHeight correction
 	 * @param commit
 	 */
-	resetXHeightCorrection({commit}){
+	resetXHeightCorrection({commit})
+	{
 		commit('SET_XHEIGHT_CORRECTION', 0);
 	},
 
@@ -50,23 +62,29 @@ export const actions = {
 	 * @param state
 	 * @param fontSize
 	 */
-	calculateXHeightFactor({commit, state}){
-		let decimals = 3;
-		let decimalFactor = 10 ** decimals;
-		let fontSize = 72;
+	calculateFactorOfType({commit, state}, type)
+	{
+		let factor;
+		switch(type){
+			case XHEIGHT:
+				factor = calculateFactor(state.xHeight.auto, state.xHeight.correction);
+				commit('SET_XHEIGHT_FACTOR', factor);
+				break;
+			case CAPHEIGHT:
+				factor = calculateFactor(state.capHeight.auto, state.capHeight.correction);
+				commit('SET_CAPHEIGHT_FACTOR', factor);
+				break;
+		}
 
-		state.xHeightTotal = state.xHeight.auto - state.xHeight.correction;
-
-		let xHeightFactor = Math.round((state.xHeightTotal / fontSize) * decimalFactor) / decimalFactor;
-		commit('SET_XHEIGHT_FACTOR',xHeightFactor)
 	},
 
-	setXHeightFactor({commit,state},event){
+	setXHeightFactor({commit, state}, event)
+	{
 		let fontSize = 72;
 
 		let value = event.target.value;
-		let correction = state.xHeight.auto - (fontSize*value);
+		let correction = state.xHeight.auto - (fontSize * value);
 		commit('SET_XHEIGHT_CORRECTION', correction);
-		commit('SET_XHEIGHT_FACTOR',value)
+		commit('SET_XHEIGHT_FACTOR', value)
 	}
 }

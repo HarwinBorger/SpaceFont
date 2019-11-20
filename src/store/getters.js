@@ -9,5 +9,9 @@ export const getters = {
 
 	getXHeightCorrection(state){
 		return state.xHeight.correction;
+	},
+
+	getCapHeightCorrection(state){
+		return state.capHeight.correction;
 	}
 }

@@ -1,9 +1,15 @@
 <template>
 	<span class="measures">
 		<span class="measure measure--font-size"><span class="measure__label">font-size</span></span>
-
-		<span id="calc-x-height" class="measure measure--xheight measure--dragable"  :class="[drag ? 'is-drag':'']" :style="{ transform: 'translateY('+getXHeightCorrection+'px)'}">
-			<span class="measure__label">x-height <span v-if="type===XHEIGHT" class="measure__drag" @mousedown="startDrag"></span></span>
+		<span id="calc-cap-height" class="measure measure--capheight measure--dragable" :class="[drag === CAPHEIGHT ? 'is-drag':'']"
+		      :style="{ transform: 'translateY('+getCapHeightCorrection+'px)'}">
+			<span class="measure__label">cap-height <span v-if="type===CAPHEIGHT" class="measure__drag"
+			                                              @mousedown="startDrag"></span></span>
+		</span>
+		<span id="calc-x-height" class="measure measure--xheight measure--dragable" :class="[drag === XHEIGHT? 'is-drag':'']"
+		      :style="{ transform: 'translateY('+getXHeightCorrection+'px)'}">
+			<span class="measure__label">x-height <span v-if="type===XHEIGHT" class="measure__drag"
+			                                            @mousedown="startDrag"></span></span>
 		</span>
 		<span class="measure measure--baseline"><span class="measure__label">baseline</span></span>
 	</span>
@@ -14,12 +20,12 @@
 
 	export default {
 		name: 'measures',
-		props:{
-			type:{
+		props: {
+			type: {
 				type: String,
 				validator: function (value) {
 					// Only accept certain types
-					return [XHEIGHT,CAPHEIGHT].includes(value)
+					return [XHEIGHT, CAPHEIGHT].includes(value)
 				}
 			}
 		},
@@ -41,24 +47,24 @@
 				correction: 0
 			}
 		},
-		computed:{
-			...mapGetters(['getXHeightCorrection'])
+		computed: {
+			...mapGetters(['getXHeightCorrection', 'getCapHeightCorrection'])
 		},
 		methods: {
-			...mapActions(['setXHeightCorrection','calculateXHeightFactor']),
+			...mapActions(['setCorrectionOfType', 'calculateFactorOfType']),
 			startDrag(event)
 			{
 				window.addEventListener('mouseup', this.stopDrag);
 				window.addEventListener('mousemove', this.dragSlider);
 
 				this.mouse.start.y = event.clientY - this.correction;
-				this.drag = true;
+				this.drag = this.type;
 			},
 			stopDrag(event)
 			{
-				if (this.drag === true) {
+				if (this.drag) {
 					this.correction = (this.mouse.current - this.mouse.start.y);
-					this.calculateXHeightFactor();
+					this.calculateFactorOfType(this.type);
 					this.drag = false;
 
 					window.removeEventListener('mouseup', this.stopDrag);
@@ -67,13 +73,12 @@
 			},
 			dragSlider(event)
 			{
-				if (this.drag === true) {
+				if (this.drag) {
 					this.mouse.current = event.clientY;
 					let translateY = this.mouse.current - this.mouse.start.y;
-					this.setXHeightCorrection(translateY);
-					this.calculateXHeightFactor();
 
-					this.styleObject.transform = `translateY(${translateY}px)`
+					this.setCorrectionOfType([this.type, translateY]);
+					this.calculateFactorOfType(this.type);
 				}
 			}
 		},

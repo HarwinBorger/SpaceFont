@@ -14,6 +14,11 @@ export const store = new Vuex.Store({
 			correction: null,
 			factor: null
 		},
+		capHeight: {
+			auto: null,
+			correction: null,
+			factor: null
+		}
 	},
 	getters: getters,
 	mutations: mutations,

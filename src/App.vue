@@ -49,7 +49,7 @@
 	import {mapGetters, mapActions} from 'vuex';
 	import Measures from './components/Measures.vue';
 	import WebFont from 'webfontloader';
-	import {mapConstants} from "./constants";
+	import {mapConstants, XHEIGHT} from "./constants";
 
 	export default {
 		name: 'app',
@@ -69,7 +69,7 @@
 		},
 		methods: {
 			...mapActions(
-				['fetchGoogleFontsData', 'resetXHeightCorrection', 'calculateXHeightFactor', 'setXHeightAuto','setXHeightFactor']),
+				['fetchGoogleFontsData', 'resetXHeightCorrection', 'calculateFactorOfType', 'setXHeightAuto','setXHeightFactor']),
 
 			updateFont(event)
 			{
@@ -85,7 +85,7 @@
 						// Set auto xHeight
 						this.xHeight = document.getElementById('calc-x-height').offsetHeight;
 						this.setXHeightAuto(this.xHeight);
-						this.calculateXHeightFactor();
+						this.calculateFactorOfType(XHEIGHT);
 
 						// Reset any manuel correction made on the xHeight
 						this.resetXHeightCorrection();
@@ -95,7 +95,7 @@
 
 			resetXHeight(){
 				this.resetXHeightCorrection();
-				this.calculateXHeightFactor();
+				this.calculateFactorOfType(XHEIGHT);
 			}
 		},
 		created()
