@@ -76,7 +76,7 @@
 			</Interface>
 			<Interface>
 				<div class="align-baseline">
-				<p class="font-preset-default">
+				<p class="text-preset-default">
 					Donec ullamcorper nulla non metus auctor fringilla. Etiam porta sem malesuada magna mollis euismod.
 				</p>
 				</div>
