@@ -35,8 +35,10 @@
 
 				<template v-slot:details>
 					<div>
-						<label for="capheight">Cap-height</label> (<a type="button" @click="resetCapHeight">reset</a>)<br>
-						<input v-if="getFactorOfType(CAPHEIGHT)" id="capheight" type="number" step="0.001" :value="getFactorOfType(CAPHEIGHT)"
+						<label for="capheight">Cap-height</label> (<a type="button"
+						                                              @click="resetCapHeight">reset</a>)<br>
+						<input v-if="getFactorOfType(CAPHEIGHT)" id="capheight" type="number" step="0.001"
+						       :value="getFactorOfType(CAPHEIGHT)"
 						       @input="setCapHeightFactor" @change="setCapHeightFactor">
 						<template v-else>...</template>
 					</div>
@@ -60,7 +62,8 @@
 				<template v-slot:details>
 					<div>
 						<label for="xheight">X-height</label> (<a type="button" @click="resetXHeight">reset</a>)<br>
-						<input v-if="getFactorOfType(XHEIGHT)" id="xheight" type="number" step="0.001" :value="getFactorOfType(XHEIGHT)"
+						<input v-if="getFactorOfType(XHEIGHT)" id="xheight" type="number" step="0.001"
+						       :value="getFactorOfType(XHEIGHT)"
 						       @input="setXHeightFactor" @change="setXHeightFactor">
 						<template v-else>...</template>
 					</div>
@@ -75,10 +78,17 @@
 					consectetur est at lobortis.</p>
 			</Interface>
 			<Interface>
-				<div class="align-baseline">
-				<p class="text-preset-default">
-					Donec ullamcorper nulla non metus auctor fringilla. Etiam porta sem malesuada magna mollis euismod.
-				</p>
+				<div class="bg-units">
+					<div class="align-baseline">
+						<p class="text-preset-default">
+							Donec ullamcorper nulla non metus auctor fringilla. Etiam porta sem malesuada magna mollis
+							euismod.
+						</p>
+						<p class="text-preset-default">
+							Donec ullamcorper nulla non metus auctor fringilla. Etiam porta sem malesuada magna mollis
+							euismod.
+						</p>
+					</div>
 				</div>
 			</Interface>
 		</div>

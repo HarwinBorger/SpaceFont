@@ -2,4 +2,6 @@
 //  used with preprocessors and contain font, colors definitions, etc.
 
 @import "~spaceframework/scss/1.settings/__settings";
+@import "space-settings";
 @import "colors";
+@import "text-presets";

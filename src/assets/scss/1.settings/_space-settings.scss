@@ -1,0 +1,18 @@
+/**************************************************************
+ * BASIC CORE SETTINGS
+ *
+ * Context:
+ * - Space Unit Sizes
+ * - Space Breakpoints
+**************************************************************/
+
+/**
+ * Space Rhythm: Define grid setting
+ */
+
+// Define the size of your virtual grid units for each breakpoint
+$space-unit-sizes: (
+	small: .75rem,
+	medium: .875rem,
+	large: 1rem
+);
